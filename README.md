@@ -28,9 +28,9 @@
 #### 프로젝트명: 🚗🔧 자동차 고장 및 이상현상 정비 챗봇 
 
 ### 팀 구성원
-| 양정민 | 전상아 | 주수빈 | 최동현 | 홍문봉 |
-|------------|------------|------------|------------|------------|
-| [@Yangmin](https://github.com/Yangmin3)| [@sang-a-le](https://github.com/sang-a-le) | [@Subin-Ju](https://github.com/Subin-Ju) | [@donghyun4957](https://github.com/donghyun4957) | [@Glowcloudy](https://github.com/Glowcloudy) |
+| 양정민 | 전상아 | 주수빈 | 최동현 |
+|------------|------------|------------|------------|
+| [@Yangmin](https://github.com/Yangmin3)| [@sang-a-le](https://github.com/sang-a-le) | [@Subin-Ju](https://github.com/Subin-Ju) | [@donghyun4957](https://github.com/donghyun4957) |
 
 
 <br>
@@ -439,5 +439,4 @@ sequenceDiagram
 - 양정민 : 
 - 전상아 :
 - 주수빈 : 
-- 최동현 : 
-- 홍문봉 : 
+- 최동현 :
