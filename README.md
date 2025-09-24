@@ -272,25 +272,6 @@ splitter = RecursiveCharacterTextSplitter(
 3. **최종 답변** : 두 검색 결과 통합 + 신뢰도 가중치 적용
 
 <br>
-
-## 🧩 핵심 워크플로우 (RAG 기반)
-```mermaid
-sequenceDiagram
-    participant User as 사용자
-    participant Pre as 전처리 모듈
-    participant DB1 as GSW 벡터DB
-    participant DB2 as 블로그/지식인 벡터DB
-    participant LLM as LLM 엔진
-    
-    User->>Pre: "차량 이상현상 입력" 또는 "계기판 이미지 업로드"
-    Pre->>DB1: 차종·엔진 기반 1차 검색
-    DB1-->>Pre: 표준 진단 결과
-    Pre->>DB2: 키워드 기반 2차 검색
-    DB2-->>Pre: 외부 사용자 경험
-    Pre->>LLM: 통합 검색 결과 전달
-    LLM-->>User: 종합 진단 및 대응 방안 제공
-```
-<br>
 <br>
 
 # 8. Vector DB 연동
