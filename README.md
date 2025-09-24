@@ -1,6 +1,6 @@
 # SKN17-3rd-Team6
 > SK네트웍스 Family AI캠프 17기 - 3차 프로젝트 6팀  
-  개발 기간: 2025.09.08 ~ 2025.09.25
+  개발 기간: 2025.09.24 ~ 2025.09.25
 
 <br>
 
@@ -190,17 +190,138 @@ flowchart LR
 <br>
 
 ## 🏭 데이터 전처리
+## 1. 현대/기아 GSW (정비 매뉴얼) PDF 파일 우선 전처리
+- 참고: 📁 text_preprocessing.py 
 
+### 0. 텍스트 정리
+```
+def norm(s: str) -> str:
+    if s is None:
+        return ""
+    s = unicodedata.normalize("NFKC", str(s))
+    s = s.replace("\xa0", " ")
+    s = re.sub(r"[\r\n\t]+", " ", s)
+    s = re.sub(r"\s+", " ", s).strip(" -:·|")
+    return s.strip()
+
+def key_id(s: str) -> str:
+    return re.sub(r"[^0-9a-z가-힣]+", "", norm(s).lower())
+
+def dedup_keep_order(seq):
+    seen = set()
+    out = []
+    for x in seq:
+        k = key_id(x)
+        if k and k not in seen:
+            seen.add(k)
+            out.append(norm(x))
+    return out
+```
+
+### 1. 표 형태로 되어있는 PDF 내용 처리
+#### 1-1. "현상", "고장"이 표 안에 있는 경우
+- **현대 자동차**  
+"현상", "코드", "원인", "고장 현상", "점검 항목" 등 필요한 데이터가 표 안에 담겨있을 경우,  
+해당 내용들을 표 안에서 index를 찾아 반환하는 형식으로 추출.
+
+- **기아 자동차**  
+필요한 데이터인 "현상', "코드", "원인" 내용이 표 안에 담겨있을 경우,  
+해당 내용들을 표 안에서 index를 찾아 반환하는 형식으로 추출.  
+
+#### 1-2. "현상", "고장"이 표 밖에 <소제목> 형태로 있는 경우
+1. `page.find_tables()` 메서드를 활용하여 표를 찾아서 추출  
+2. `table.bbox[1]`를 통해 표 안에서 좌표를 찾아 내용을 반환.  
+
+### 2. "현상", "원인" 데이터 추출 이후
+- 문제 상황: 딕셔너리 형태로 .json 파일에 저장하는 과정에서 동일한 "현상" 또는 "원인"이 반복되는 문제   
+#### 2-1. "현상"이 여러 번 반복
+- 동일한 "현상"이 반복해서 담길 수 있도록 for 구문 활용
+#### 2-2. "원인"이 여러 개 등장
+- 하나의 "현상"에 존재하는 여러 "원인"들을 [리스트] 형태로 반환
+
+### 3. 차종-엔진 형식 통일
+```
+# ---------------- 카테고리 추출 ------------------- 
+def transform_categories(parts):
+    # cats = parts[3:]  # 앞 3개 무시 (ev3~ev6)
+    cats = parts
+    cats = dedup_keep_order(cats)
+    if len(cats) == 2:
+        return [cats[0], "없음", "고장진단"]
+    elif len(cats) == 3:
+        return [cats[0], cats[1], "고장진단"]
+    elif len(cats) >= 4:
+        return [cats[0], cats[1] + "+" + cats[2], "고장진단"]
+    else:
+        return []
+```
+- 표에 있는 모든 내용 추출이 완료된 이후, 위의 코드를 통해 차종-엔진 형식을 통일하여 카테고리 추출을 최종 완료함.
+
+### 4. 지정 형식으로 변환
+`데이터 출처 및 구조화` 항목에서 지정한 데이터 형식으로 변환하기 위한 처리 진행.  
+`title`, `content`, `type`, `차종`, `엔진` 각 항목에 올바른 데이터가 들어갈 수 있도록 코드 작업.  
+
+### 5. 메타 데이터 merge
+```
+#----------- hyundai & kia 메타데이터 merge -----
+# 파일 두개 불러오기
+with open("parsed_hyundai.json", "r", encoding="utf-8") as f1:
+    list1 = json.load(f1)   # [ {..}, {..}, ... ]
+
+with open("parsed_kia.json", "r", encoding="utf-8") as f2:
+    list2 = json.load(f2)   # [ {..}, {..}, ... ]
+
+# 두 리스트 합치기
+merged = list1['고장진단'] + list2['고장진단']   # extend() 써도 동일
+
+merged_data = {'고장진단' : merged}
+
+# 새로운 파일로 저장
+with open("parsed_data.json", "w", encoding="utf-8") as out:
+    json.dump(merged_data, out, ensure_ascii=False, indent=2)
+
+print(f"합친 개수: {len(merged_data)}")
+```
+- 1~4번 작업을 거친 현대 자동차와 기아 자동차 GSW 데이터에 관한 `json` 파일들을 merge하는 과정을 거쳐 새로운 파일로 통합.  
+→ Vector DB에 저장될 수 있는 형식으로 최종 변환
+
+
+### 6. GSW 및 네이버 블로그/지식인 크롤링 데이터 전처리
+```
+# 텍스트 정리 
+def clean_string(s: str) -> str:
+    if not s:
+        return ""
+    # 유니코드 정규화 (호환 문자 통합)
+    s = unicodedata.normalize("NFKC", str(s))
+    # 알파벳, 한글, 숫자, 공백만 남기기
+    s = re.sub(r"[^0-9a-zA-Z가-힣\s]+", " ", s)
+    s = re.sub(r"\s+", " ", s)   # 여러 공백 → 하나의 공백
+    return s.strip()             # 앞뒤 공백 제거
+```
+> 특히 이모티콘, 공백, 엔터 스페이스가 많은 크롤링 데이터 위주로 위와 같이 전처리
 
 <br>
 
-## 🔍 검색 및 임베딩 전략
+## 데이터 전처리(2) - 🔍 검색 및 임베딩 전략
 ### 1. 임베딩 단위
-- 블로그: 본문 → Chunk 분할 후 임베딩
+| 데이터 출처 | 임베딩 단위 |
+|------------|-----------|
+| **블로그** | 본문을 Chunk 분할 후 임베딩 |
+| **지식인** | 질문(title)과 Chunk 분할된 답변(content) 통합 → 단일 벡터 임베딩 |
+| **GSW** | 고장진단 단위 → 레코드 단위 임베딩 |
 
-- 지식인: 질문 + 답변 통합 → 단일 벡터 임베딩
 
-- GSW: 고장진단 단위 → 레코드 단위 임베딩
+**Chunk 과정**
+```
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1000,
+    chunk_overlap=50
+)
+
+```
+- 본문 내용이 긴 블로그 글과, 여러 개의 답변이 있는 지식인 내용의 경우 `chunk_size=1000` 으로 지정하여 임베딩을 진행함.
+
 
 ### 2. 검색 우선순위
 
@@ -235,7 +356,6 @@ sequenceDiagram
 # 8. Vector DB 연동
 ### 사용한 벡터 DB: FAISS
 **FAISS 선택 이유**
-```
 1. 고성능 유사성 검색: 벡터 데이터에서 가장 가까운 이웃 벡터를 효과적으로 찾아내는 Nearest Neighbor Search 기능을 제공하므로 빠른 검색 효율을 내기에 적합.
 2. GPU 지원을 통한 가속 연산: GPU 연결 시 병렬 연산이 지원되어 처리 속도를 크게 향상시킬 수 있음.
 3. 다양한 인덱스 유형: 여러 인덱스 유형을 지원하여 데이터 크기와 요구에 맞는 최적화된 검색 성능을 제공함.
@@ -243,9 +363,8 @@ sequenceDiagram
 → 전통적인 방법으로는 효율적으로 처리하기 어려운 대규모 데이터 처리에 매우 적합. (약 8만 개 + 이후 계속 확장할 예정)
 5. 커뮤니티 지원 및 확장성: 많은 엔지니어들이 지속적으로 개선하고 있으므로 확장성ㆍ안정성 면에서 우위를 점하는 DB.
 
-```
 
-- 📁 [vector_store.py] 파일 확인
+- 📁 vector_store.py
 - 🔗 [벡터 DB 구축(Google Drive)](https://drive.google.com/drive/folders/116zAgunFJb1ZxaShQKSVPMpM7oNylaXX?usp=sharing)
 
 <br>
@@ -310,7 +429,9 @@ sequenceDiagram
 <br>
 
 # 12. 시연 페이지
-
+![시연 페이지1](./readme_image/streamlit1.png)
+![시연 페이지2](./readme_image/streamlit2.png)
+![시연 페이지3](./readme_image/streamlit3.png)
 <br>
 <br>
 
