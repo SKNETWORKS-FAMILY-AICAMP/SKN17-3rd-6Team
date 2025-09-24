@@ -69,18 +69,17 @@
 <br>
 
 ## 🎯 프로젝트 목표
-- 사용자가 입력한 **이상현상 설명 또는 계기판 경고등**을 기반으로 진단 수행
+- 사용자가 입력한 **이상현상 설명**을 기반으로 진단 수행
 - **차종·엔진 스펙을 반영한 GSW 기반 표준 진단** + **외부 사용자 경험 데이터(블로그+지식인 크롤링) 결합**
-- 경미한 문제의 경우 **DIY 수리 절차 안내**, 중대한 문제는 **정비소 방문 권고**
-
+- 사용자와의 대화를 통해 **중대한 문제 판단 및 정비소 방문 권고**
 
 <br>
 <br>
 
 # 3. 기술 스택과 모델
-| **Language✍️** | **Tools🪛** | **Embedding😄** | **Vector DB📚** | **LLM🤖** | **FrameWork🪟** | **Demo💡** | **Collaborate🔧** |
-|-------------------|----------------|---------------|---------------|-------------|----------------|---------------|--------------|
-| ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) | ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?logo=visualstudiocode&logoColor=white)<br> ![RunPod](https://img.shields.io/badge/-RunPod-5F43DC?logo=cloud&logoColor=white) | ![Hugging Face](https://img.shields.io/badge/-HuggingFace-FFD21F?logo=huggingface&logoColor=black)<br> <sub><a href="https://huggingface.co/dragonkue/snowflake-arctic-embed-l-v2.0-ko">사용한 HF 모델</a></sub> | ![FAISS](https://img.shields.io/badge/-FAISS-009999?logo=meta&logoColor=white) |![EEVE](https://img.shields.io/badge/-EEVE-8A2BE2?logo=alibaba&logoColor=white)<br> | ![LangChain](https://img.shields.io/badge/-LangChain-F9AB00?logo=LangChain&logoColor=white) | ![Streamlit](https://img.shields.io/badge/-Streamlit-FF4B4B?logo=streamlit&logoColor=white) |  ![Discord](https://img.shields.io/badge/-Discord-5865F2?logo=discord&logoColor=white)<br> ![GitHub](https://img.shields.io/badge/-GitHub-181717?logo=github&logoColor=white) |
+| **Language✍️** | **Tools🪛** | **Embedding😄** | **Vector DB📚** | **LLM🤖** |**Serving Platform**| **FrameWork🪟** | **Demo💡** | **Collaborate🔧** |
+|-------------------|----------------|---------------|---------------|-------------|-----------------|----------------|---------------|--------------|
+| ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) | ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?logo=visualstudiocode&logoColor=white)<br> ![RunPod](https://img.shields.io/badge/-RunPod-5F43DC?logo=cloud&logoColor=white) | <sub><a href="https://huggingface.co/dragonkue/snowflake-arctic-embed-l-v2.0-ko">사용한 HF 모델</a></sub> | ![FAISS](https://img.shields.io/badge/-FAISS-009999?logo=meta&logoColor=white) |<sub><a href="https://huggingface.co/heegyu/EEVE-Korean-Instruct-10.8B-v1.0-GGUF">사용한 LLM 모델</a></sub> | ![Ollama](https://img.shields.io/badge/-Ollama-000000?logo=ollama&logoColor=white) | ![LangChain](https://img.shields.io/badge/-LangChain-F9AB00?logo=LangChain&logoColor=white)<br>![Hugging Face](https://img.shields.io/badge/-HuggingFace-FFD21F?logo=huggingface&logoColor=black) | ![Streamlit](https://img.shields.io/badge/-Streamlit-FF4B4B?logo=streamlit&logoColor=white) |  ![Discord](https://img.shields.io/badge/-Discord-5865F2?logo=discord&logoColor=white)<br> ![GitHub](https://img.shields.io/badge/-GitHub-181717?logo=github&logoColor=white) |
 
 
 <br>
