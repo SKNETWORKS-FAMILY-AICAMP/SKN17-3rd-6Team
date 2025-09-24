@@ -76,12 +76,11 @@
 <br>
 <br>
 
-# 3. 기술 스택과 모델
-## 🔧기술 스택
+# 3. 기술 스택과 모델\
+| **프로그래밍 언어✍️** | **개발자 도구🪛** | **임베딩 모델😄** | **Vector DB📚** | **LLM 모델🤖** | **FrameWork🪟** | **데모 페이지💡** | **협업 툴🔧** |
+|-------------------|----------------|---------------|---------------|-------------|----------------|---------------|--------------|
+| ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) | ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?logo=visualstudiocode&logoColor=white)<br> ![RunPod](https://img.shields.io/badge/-RunPod-5F43DC?logo=cloud&logoColor=white) | ![Hugging Face](https://img.shields.io/badge/-HuggingFace-FFD21F?logo=huggingface&logoColor=black)<br> <sub><a href="https://huggingface.co/dragonkue/snowflake-arctic-embed-l-v2.0-ko">사용한 HF 모델</a></sub> | ![FAISS](https://img.shields.io/badge/-FAISS-009999?logo=meta&logoColor=white) |![EEVE](https://img.shields.io/badge/-EEVE-8A2BE2?logo=alibaba&logoColor=white)<br> | ![LangChain](https://img.shields.io/badge/-LangChain-F9AB00?logo=LangChain&logoColor=white) | ![Streamlit](https://img.shields.io/badge/-Streamlit-FF4B4B?logo=streamlit&logoColor=white) |  ![Discord](https://img.shields.io/badge/-Discord-5865F2?logo=discord&logoColor=white)<br> ![GitHub](https://img.shields.io/badge/-GitHub-181717?logo=github&logoColor=white) |
 
-<br>
-
-## 🤖 사용한 모델
 
 <br>
 <br>
