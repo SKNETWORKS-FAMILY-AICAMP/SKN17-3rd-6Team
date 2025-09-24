@@ -117,7 +117,7 @@ flowchart LR
 <br>
 
 # 5. WBS
-
+![WBS 이미지](./readme_image/WBS.png)
 
 <br>
 <br>
