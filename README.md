@@ -190,34 +190,8 @@ AI로 요약한 본문 content 중심으로 **Chunk 단위 분할 및 임베딩*
 ```
 <br>
 
-## 🏭 데이터 전처리
-## 1. 현대/기아 GSW (정비 매뉴얼) PDF 파일 우선 전처리
+## 🏭 데이터 전처리(1)
 - 참고: 📁 text_preprocessing.py 
-
-### 0. 텍스트 정리
-```
-def norm(s: str) -> str:
-    if s is None:
-        return ""
-    s = unicodedata.normalize("NFKC", str(s))
-    s = s.replace("\xa0", " ")
-    s = re.sub(r"[\r\n\t]+", " ", s)
-    s = re.sub(r"\s+", " ", s).strip(" -:·|")
-    return s.strip()
-
-def key_id(s: str) -> str:
-    return re.sub(r"[^0-9a-z가-힣]+", "", norm(s).lower())
-
-def dedup_keep_order(seq):
-    seen = set()
-    out = []
-    for x in seq:
-        k = key_id(x)
-        if k and k not in seen:
-            seen.add(k)
-            out.append(norm(x))
-    return out
-```
 
 ### 1. 표 형태로 되어있는 PDF 내용 처리
 #### 1-1. "현상", "고장"이 표 안에 있는 경우
@@ -241,21 +215,6 @@ def dedup_keep_order(seq):
 - 하나의 "현상"에 존재하는 여러 "원인"들을 [리스트] 형태로 반환
 
 ### 3. 차종-엔진 형식 통일
-```
-# ---------------- 카테고리 추출 ------------------- 
-def transform_categories(parts):
-    # cats = parts[3:]  # 앞 3개 무시 (ev3~ev6)
-    cats = parts
-    cats = dedup_keep_order(cats)
-    if len(cats) == 2:
-        return [cats[0], "없음", "고장진단"]
-    elif len(cats) == 3:
-        return [cats[0], cats[1], "고장진단"]
-    elif len(cats) >= 4:
-        return [cats[0], cats[1] + "+" + cats[2], "고장진단"]
-    else:
-        return []
-```
 - 표에 있는 모든 내용 추출이 완료된 이후, 위의 코드를 통해 차종-엔진 형식을 통일하여 카테고리 추출을 최종 완료함.
 
 ### 4. 지정 형식으로 변환
@@ -263,26 +222,6 @@ def transform_categories(parts):
 `title`, `content`, `type`, `차종`, `엔진` 각 항목에 올바른 데이터가 들어갈 수 있도록 코드 작업.  
 
 ### 5. 메타 데이터 merge
-```
-#----------- hyundai & kia 메타데이터 merge -----
-# 파일 두개 불러오기
-with open("parsed_hyundai.json", "r", encoding="utf-8") as f1:
-    list1 = json.load(f1)   # [ {..}, {..}, ... ]
-
-with open("parsed_kia.json", "r", encoding="utf-8") as f2:
-    list2 = json.load(f2)   # [ {..}, {..}, ... ]
-
-# 두 리스트 합치기
-merged = list1['고장진단'] + list2['고장진단']   # extend() 써도 동일
-
-merged_data = {'고장진단' : merged}
-
-# 새로운 파일로 저장
-with open("parsed_data.json", "w", encoding="utf-8") as out:
-    json.dump(merged_data, out, ensure_ascii=False, indent=2)
-
-print(f"합친 개수: {len(merged_data)}")
-```
 - 1~4번 작업을 거친 현대 자동차와 기아 자동차 GSW 데이터에 관한 `json` 파일들을 merge하는 과정을 거쳐 새로운 파일로 통합.  
 → Vector DB에 저장될 수 있는 형식으로 최종 변환
 
@@ -369,13 +308,33 @@ sequenceDiagram
 - 🔗 [벡터 DB 구축(Google Drive)](https://drive.google.com/drive/folders/116zAgunFJb1ZxaShQKSVPMpM7oNylaXX?usp=sharing)
 
 <br>
-
-## ✅ DB 연동 구현 내용
-
-<br>
 <br>
 
 # 9. 모델 선정 과정
+### 🤖선정 모델: `heegyu/EEVE-Korean-Instruct-10.8B-v1.0-GGUF`
+  
+**선정 과정**  
+1. **모델 사용 목적**: GPU 서버를 아끼면서, 온디바이스에서 동작할 수 있는 챗봇 생성. 단, 응답 속도가 너무 느린 모델은 사용을 지양할 것.    
+2. **sLM vs. sLLM**  
+
+  | 모델 유형 | sLM |
+  |----------|------|
+  | 모델 특징 | 모바일에서도 동작하는 아주 경량화된 모델. 보통 1B-3B 사이의 크기를 가진 모델을 의미함.|
+  | 모델 단점 | sLM을 고를 경우, 파라미터 수가 적다 보니 `Gemma3-4B` 모델처럼 성능이 잘 나오지 않을 수 있으며, 추론이 어렵다는 문제가 있음.|
+
+> 경우, RAG(문서 입력 - 문서 요약 및 학습 - 쿼리 이해 후 답변 생성) 성능이 원하는 수준으로 나오기에는 부족한 파라미터 수를 갖고 있다는 생각이 듦.  
+∴ 따라서 sLLM 모델을 사용하는 것으로 결정  
+
+3. **sLLM 모델 선정**  
+- 모델을 선정하기 위해 정해둔 최적 모델 선정 조건은 다음과 같다.  
+  1. 모델 용량을 얼마나 받쳐줄 수 있는가?
+  - 차량에 모델을 탑재하여 사용한다고 생각했을 때, 용량의 최소화가 가장 중요한 지점으로 작용할 것.
+  - ecu(16GB)를 고려하여, 최대 처리 용량이 16GB 이하 + 가능하다면 안전하게 더 적은 메모리를 차지하는 모델을 선정할 것.
+  - 16GB 내에서 가동함과 동시에, 경량화를 위해 10B 안에서 작동하는 sLLM 모델을 선정하기로 최종 결정
+  2. 응답 정확도가 어느 정도 나오는가?
+  3. 응답 속도가 어느 정도 나오는가?
+
+위의 선정 과정을 바탕으로 모델을 뽑아, 테스트를 통해 성능을 검증하여 최종적으로 EEVE 모델을 선정함.
 
 <br>
 <br>
