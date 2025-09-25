@@ -76,9 +76,16 @@
 <br>
 
 # 3. 기술 스택과 모델
-| **Language✍️** | **Tools🪛** | **Embedding😄** | **Vector DB📚** | **LLM🤖** |**Serving Platform**| **FrameWork🪟** | **Demo💡** | **Collaborate🔧** |
-|-------------------|----------------|---------------|---------------|-------------|-----------------|----------------|---------------|--------------|
-| ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) | ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?logo=visualstudiocode&logoColor=white)<br> ![RunPod](https://img.shields.io/badge/-RunPod-5F43DC?logo=cloud&logoColor=white) | <sub><a href="https://huggingface.co/dragonkue/snowflake-arctic-embed-l-v2.0-ko">사용한 HF 모델</a></sub> | ![FAISS](https://img.shields.io/badge/-FAISS-009999?logo=meta&logoColor=white) |<sub><a href="https://huggingface.co/heegyu/EEVE-Korean-Instruct-10.8B-v1.0-GGUF">사용한 LLM 모델</a></sub> | ![Ollama](https://img.shields.io/badge/-Ollama-000000?logo=ollama&logoColor=white) | ![LangChain](https://img.shields.io/badge/-LangChain-F9AB00?logo=LangChain&logoColor=white)<br>![Hugging Face](https://img.shields.io/badge/-HuggingFace-FFD21F?logo=huggingface&logoColor=black) | ![Streamlit](https://img.shields.io/badge/-Streamlit-FF4B4B?logo=streamlit&logoColor=white) |  ![Discord](https://img.shields.io/badge/-Discord-5865F2?logo=discord&logoColor=white)<br> ![GitHub](https://img.shields.io/badge/-GitHub-181717?logo=github&logoColor=white) |
+| **Language✍️** | ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) |
+|---------------------|-------------------------------------------------------------------------------------------|
+| **Tools🪛** | ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?logo=visualstudiocode&logoColor=white)<br> ![RunPod](https://img.shields.io/badge/-RunPod-5F43DC?logo=cloud&logoColor=white) |
+| **Embedding😄** | <sub><a href="https://huggingface.co/dragonkue/snowflake-arctic-embed-l-v2.0-ko">사용한 HF 모델</a></sub> |
+| **Vector DB📚** | ![FAISS](https://img.shields.io/badge/-FAISS-009999?logo=meta&logoColor=white) |
+| **LLM🤖** | <sub><a href="https://huggingface.co/heegyu/EEVE-Korean-Instruct-10.8B-v1.0-GGUF">사용한 LLM 모델</a></sub> |
+| **Serving Platform** | ![Ollama](https://img.shields.io/badge/-Ollama-000000?logo=ollama&logoColor=white) |
+| **FrameWork🪟** | ![LangChain](https://img.shields.io/badge/-LangChain-F9AB00?logo=LangChain&logoColor=white)<br>![Hugging Face](https://img.shields.io/badge/-HuggingFace-FFD21F?logo=huggingface&logoColor=black) |
+|  **Demo💡** | ![Streamlit](https://img.shields.io/badge/-Streamlit-FF4B4B?logo=streamlit&logoColor=white) |
+| **Collaborate🔧** | ![Discord](https://img.shields.io/badge/-Discord-5865F2?logo=discord&logoColor=white)<br> ![GitHub](https://img.shields.io/badge/-GitHub-181717?logo=github&logoColor=white) |
 
 
 <br>
@@ -285,6 +292,7 @@ splitter = RecursiveCharacterTextSplitter(
 
 # 9. 모델 선정 과정
 ### 🤖선정 모델: `heegyu/EEVE-Korean-Instruct-10.8B-v1.0-GGUF (ggml-model-Q5_K_M.gguf)`
+> 모델 실행 환경: `RunPod(A40)`, `Ollama`
   
 **선정 과정**  
 
