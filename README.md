@@ -127,6 +127,7 @@
 ```
 #### 본문 content **임베딩**
 
+<br>
 
 ### 2. 네이버 블로그
 사용자 경험 데이터
@@ -248,7 +249,6 @@ splitter = RecursiveCharacterTextSplitter(
     chunk_size=1000,
     chunk_overlap=50
 )
-
 ```
 - 본문 내용이 긴 블로그 글과, 여러 개의 답변이 있는 지식인 내용의 경우 `chunk_size=1000` 으로 지정하여 임베딩을 진행함.
 
@@ -274,7 +274,9 @@ splitter = RecursiveCharacterTextSplitter(
 → 전통적인 방법으로는 효율적으로 처리하기 어려운 대규모 데이터 처리에 매우 적합. (약 8만 개 + 이후 계속 확장할 예정)
 5. 커뮤니티 지원 및 확장성: 많은 엔지니어들이 지속적으로 개선하고 있으므로 확장성ㆍ안정성 면에서 우위를 점하는 DB.
 
-**벡터 DB 코드 및 파일**
+<br>
+
+### 벡터 DB 코드 및 파일
 - 📁 [vector_store.py](./database/vector_store.py)
 - 🔗 [벡터 DB 구축(Google Drive)](https://drive.google.com/drive/folders/116zAgunFJb1ZxaShQKSVPMpM7oNylaXX?usp=sharing)
 
@@ -349,9 +351,11 @@ AI 연산 플랫폼에 탑재된다 하더라도 다양한 task를 위해 많은
 | 15~             | 4       |
 > 신속도 항목 만점: 10점
 
-**테스트 상세 평가 항목**
+
+#### 테스트 상세 평가 항목
 ![수행결과 이미지](./readme_image/result_detail.png)
 
+<br>
 
 ### 최종 테스트 결과
 ![ 수행결과 이미지 ](./readme_image/test_result.png)
@@ -360,7 +364,7 @@ AI 연산 플랫폼에 탑재된다 하더라도 다양한 task를 위해 많은
 <br>
 
 # 11. 성능 개선 과정
-## 1. 응답 품질 향상 시도
+## 응답 품질 향상 시도
 ### 프롬프트 개선
 - 문제 상황: 자동차 전문가 챗봇이지만, 도메인과 무관한 잡담 또는 일반 인사 질문을 넣었을 경우 문서를 기반으로 한 잘못된 응답 도출
 - 개선 방법: 모델이 해당 질문에 대해 문서를 무시하고 질문에만 맞는 답변을 할 수 있도록 다시 프롬프팅.
@@ -381,6 +385,7 @@ instruction = """
 
 # 12. 시연 페이지
 ![시연 페이지](./readme_image/streamlit_final.gif)
+
 <br>
 <br>
 
