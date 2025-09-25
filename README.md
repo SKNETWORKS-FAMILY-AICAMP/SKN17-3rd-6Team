@@ -293,8 +293,10 @@ splitter = RecursiveCharacterTextSplitter(
 
 # 9. 모델 선정 과정
 ### 🤖선정 모델: `heegyu/EEVE-Korean-Instruct-10.8B-v1.0-GGUF (ggml-model-Q5_K_M.gguf)`
-> 모델 실행 환경: `RunPod(A40)`, `Ollama`
-  
+#### 모델 실행 환경: `RunPod(A40)`, `Ollama`
+
+<br>
+
 **선정 과정**  
 
 1. **모델 사용 목적** <br>
