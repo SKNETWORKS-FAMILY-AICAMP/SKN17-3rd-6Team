@@ -76,8 +76,9 @@
 <br>
 
 # 3. 기술 스택과 모델
-| **Language✍️** | ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) |
+| **카테고리** | **기술 스택** |
 |---------------------|-------------------------------------------------------------------------------------------|
+| **Language✍️** | ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) |
 | **Tools🪛** | ![VS Code](https://img.shields.io/badge/-VS%20Code-007ACC?logo=visualstudiocode&logoColor=white)<br> ![RunPod](https://img.shields.io/badge/-RunPod-5F43DC?logo=cloud&logoColor=white) |
 | **Embedding😄** | <sub><a href="https://huggingface.co/dragonkue/snowflake-arctic-embed-l-v2.0-ko">사용한 HF 모델</a></sub> |
 | **Vector DB📚** | ![FAISS](https://img.shields.io/badge/-FAISS-009999?logo=meta&logoColor=white) |
