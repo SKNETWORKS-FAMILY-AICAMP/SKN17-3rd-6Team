@@ -1,0 +1,9 @@
+.env
+crawl_result
+chroma_db
+merged_results
+blog_results
+kin_results
+faiss_db
+model
+vector_final
