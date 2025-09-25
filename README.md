@@ -187,7 +187,7 @@ AI로 요약한 본문 content 중심으로 **Chunk 단위 분할 및 임베딩*
 <br>
 
 ## 🏭 데이터 전처리(1)
-- 참고: [📁 text_preprocessing.py](./crawling/text_preprocessing.py)
+- 참고: 📁 [text_preprocessing.py](./crawling/text_preprocessing.py)
 
 ### 1. 표 형태로 되어있는 PDF 내용 처리
 #### 1-1. "현상", "고장"이 표 안에 있는 경우
@@ -286,7 +286,7 @@ splitter = RecursiveCharacterTextSplitter(
 5. 커뮤니티 지원 및 확장성: 많은 엔지니어들이 지속적으로 개선하고 있으므로 확장성ㆍ안정성 면에서 우위를 점하는 DB.
 
 **벡터 DB 코드 및 파일**
-- [📁 vector_store.py](./database/vector_store.py)
+- 📁 [vector_store.py](./database/vector_store.py)
 - 🔗 [벡터 DB 구축(Google Drive)](https://drive.google.com/drive/folders/116zAgunFJb1ZxaShQKSVPMpM7oNylaXX?usp=sharing)
 
 <br>
